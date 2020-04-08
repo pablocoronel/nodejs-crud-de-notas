@@ -25,11 +25,7 @@ app.set(express.urlencoded({ extended: false })); // los datos del formulario se
 // Global variables
 
 // Routes
-// ruta basica
-app.get('/', (req, res) => {
-	// res.send('hello world');
-	res.render('index');
-});
+app.use(require('./routes/index.routes'));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public'))); // node sabe donde está la carptea 'public
