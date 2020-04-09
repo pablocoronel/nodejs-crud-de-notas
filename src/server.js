@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path'); //nodejs
 const expressHandlebars = require('express-handlebars');
+const morgan = require('morgan');
 
 // Initials
 const app = express();
@@ -20,7 +21,8 @@ app.engine(
 app.set('view engine', '.hbs'); //usa el engine de arriba
 
 // Middlewares
-app.set(express.urlencoded({ extended: false })); // los datos del formulario se convierten a JSON
+app.use(morgan('dev')); // sirve para log de la app en consola
+app.use(express.urlencoded({ extended: false })); // los datos del formulario en el request se convierten a JSON
 
 // Global variables
 
