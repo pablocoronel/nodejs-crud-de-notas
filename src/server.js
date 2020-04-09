@@ -26,6 +26,7 @@ app.set(express.urlencoded({ extended: false })); // los datos del formulario se
 
 // Routes
 app.use(require('./routes/index.routes'));
+app.use(require('./routes/notes.routes'));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public'))); // node sabe donde está la carptea 'public
