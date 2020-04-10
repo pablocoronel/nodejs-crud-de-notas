@@ -15,7 +15,7 @@ notesController.createNewNote = async (req, res) => {
 	const newNote = new Note({ title, description });
 	await newNote.save(); // se guarda en la bd, es una operacion asincrona
 
-	res.send('new note');
+	res.redirect('/notes');
 };
 
 // Listar
@@ -36,8 +36,9 @@ notesController.updateNote = (req, res) => {
 };
 
 // Borrar
-notesController.deleteNote = (req, res) => {
-	res.render('delete');
+notesController.deleteNote = async (req, res) => {
+	await Note.findByIdAndDelete(req.params.id); // busca por id y lo borra de la bd
+	res.redirect('/notes'); // redirecciona a la vista de listar
 };
 
 module.exports = notesController;

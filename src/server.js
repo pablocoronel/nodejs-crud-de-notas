@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path'); //nodejs
 const expressHandlebars = require('express-handlebars');
 const morgan = require('morgan');
+const methodOverride = require('method-override');
 
 // Initials
 const app = express();
@@ -23,6 +24,7 @@ app.set('view engine', '.hbs'); //usa el engine de arriba
 // Middlewares
 app.use(morgan('dev')); // sirve para log de la app en consola
 app.use(express.urlencoded({ extended: false })); // los datos del formulario en el request se convierten a JSON
+app.use(methodOverride('_method')); // Para usar el verbo Delete en http
 
 // Global variables
 
