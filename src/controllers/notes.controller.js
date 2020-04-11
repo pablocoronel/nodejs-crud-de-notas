@@ -27,12 +27,16 @@ notesController.renderNotes = async (req, res) => {
 };
 
 // Editar
-notesController.renderEditForm = (req, res) => {
-	res.send('edit');
+notesController.renderEditForm = async (req, res) => {
+	const note = await Note.findById(req.params.id).lean(); // busca en la bd, es asincrono
+	res.render('models/notes/edit-note', { note }); // pasa el objeto a la vista
 };
 
-notesController.updateNote = (req, res) => {
-	res.render('update');
+notesController.updateNote = async (req, res) => {
+	const { title, description } = req.body;
+	await Note.findByIdAndUpdate(req.params.id, { title, description });
+
+	res.redirect('/notes');
 };
 
 // Borrar
