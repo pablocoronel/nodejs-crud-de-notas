@@ -25,6 +25,7 @@
     {{!-- lugar para renderizar el contenido de vistas --}}
     <main class="container p-5">
         {{>messages}} {{!-- es un include, desde partials --}}
+        {{>errors}}
         {{{body}}}
     </main>
 

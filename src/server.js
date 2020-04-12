@@ -41,6 +41,7 @@ app.use(flash());
 app.use((req, res, next) => {
 	// locals guarda lo almacenado en flash, en las variables del servidor
 	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
 
 	next();
 });

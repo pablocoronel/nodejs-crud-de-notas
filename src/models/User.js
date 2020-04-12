@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const UserSchema = new Schema(
 	{
 		name: { type: String, required: true },
-		email: { type: String, required: true },
+		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
 	},
 	{ timestamps: true }
@@ -12,7 +12,7 @@ const UserSchema = new Schema(
 
 // Encriptar password: devuelv la pass encriptada
 // encrypPassword es un metodo propio, methods permite agregar funciones propias
-UserSchema.methods.encrypPassword = async (password) => {
+UserSchema.methods.encryptPassword = async (password) => {
 	// algoritmo de cifrado
 	// genSalt es asincrono, devuelve una promesa, entonces usa await para continuar la ejecucion mientras se resuelve, para usar 'await', la funcion debe ser "async"
 	const salt = await bcrypt.genSalt(10);
@@ -23,8 +23,8 @@ UserSchema.methods.encrypPassword = async (password) => {
 
 // devolver la pass
 // usa una function No flecha, para acceder al this del Schema
-UserSchema.methods.matchPassword= function(password){
-    return await bcrypt.compare(password, this.password) // password: pasado, segundo: el de la BD
-}
+UserSchema.methods.matchPassword = async function (password) {
+	return await bcrypt.compare(password, this.password); // password: pasado, segundo: el de la BD
+};
 
 module.exports = model('User', UserSchema);
