@@ -1,5 +1,6 @@
 const userController = {};
 const User = require('../models/User');
+const passport = require('passport');
 
 // vista
 userController.renderSingUpForm = (req, res) => {
@@ -56,14 +57,18 @@ userController.renderSingInForm = (req, res) => {
 	res.render('models/users/singin');
 };
 
-// procesamiento
-userController.singIn = (req, res) => {
-	res.send('sing in');
-};
+// procesamiento del login
+userController.singIn = passport.authenticate('local', {
+	failureRedirect: '/users/singin', // si salio mal
+	successRedirect: '/notes', // si se logueaga ok
+	failureFlash: true, // usar flash
+});
 
 // salir
 userController.logout = (req, res) => {
-	res.send('salir');
+	req.logout(); // cerrar la sesion
+	req.flash('success_msg', 'You are logged out now'); // enviarle un mensaje
+	res.redirect('/users/singin'); //redireccion
 };
 
 module.exports = userController;

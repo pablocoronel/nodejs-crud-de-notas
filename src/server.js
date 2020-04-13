@@ -5,9 +5,11 @@ const morgan = require('morgan'); // para loger
 const methodOverride = require('method-override'); // para usar PUT y DELETE en http
 const flash = require('connect-flash'); // para enviar mensajes
 const session = require('express-session'); // para guardar los mensajes enviados entre vistas
+const passport = require('passport');
 
 // Initials
 const app = express();
+require('./config/passport'); // importo la configuracion de passport
 
 // Settings
 app.set('port', process.env.PORT || 4000);
@@ -34,6 +36,8 @@ app.use(
 		saveUninitialized: true,
 	})
 ); // configuracion de express-session
+app.use(passport.initialize()); // es importante que esté despues de session
+app.use(passport.session());
 app.use(flash());
 
 // Global variables (se ven en toda la aplicacion)
@@ -42,6 +46,8 @@ app.use((req, res, next) => {
 	// locals guarda lo almacenado en flash, en las variables del servidor
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
 
 	next();
 });
